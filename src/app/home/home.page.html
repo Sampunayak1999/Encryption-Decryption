@@ -1,0 +1,81 @@
+
+ <ion-toolbar  class="ion-text-center ion-padding"  style="--background:#4299e1;" >
+  <img src="/assets/images/Group 3.svg" class="ion-shadow">
+<ion-title class="ion-text-center title" style="color: white;">Encrypto</ion-title>
+</ion-toolbar>
+<ion-content [fullscreen]="false">
+ 
+<idiv style="box-shadow: none;"  >
+<div id="login" class="set">
+  <!--Login Form-->
+  <form [formGroup]="loginform" (ngSubmit)="login()" >
+  <ion-item class="ion-margin" lines="inset">
+    <ion-icon name="person" slot="start" color="medium"></ion-icon>
+    <ion-label position="floating">User Name</ion-label>
+    <ion-input formControlName="userName" autocomplete required></ion-input>
+  </ion-item>
+  <ion-item class="ion-margin" lines="inset" >
+    <ion-icon name="lock-closed" slot="start"></ion-icon>
+    <ion-label position="floating">Password</ion-label>
+    <ion-input clearOnEdit=false type="password" id='logid' required formControlName="password"></ion-input>
+  </ion-item>
+  <ion-item class="ion-margin" lines="none" >
+    <ion-icon  slot="start" ></ion-icon>
+    <ion-checkbox style="margin-right: 10px;" (ionChange)="logchange($event.detail.checked)"></ion-checkbox>    <ion-label>Show Password</ion-label>
+
+  </ion-item>
+<div class="ion-text-center">
+  <ion-button color="primary" type="submit" [disabled]="!loginform.valid" expand="block" class="ion-margin" size="large" >
+    <!--<ion-icon name="log-in" slot="start" size="large"></ion-icon>-->
+    Login</ion-button>
+</div>
+</form>
+<hr class="hr-text ion-margin-vertical" data-content="OR">
+</div>
+<!--Register Form-->
+<form  [formGroup]="SignUpform" (ngSubmit)="register()">
+<div class="register" style="display: none;" >
+  <ion-item class="ion-margin" lines="inset">
+    <ion-icon name="person" slot="start" color="medium"></ion-icon>
+    <ion-label position="floating">First Name</ion-label>
+    <ion-input required formControlName="name1" required minlength="3" autocapitalize="on"></ion-input>
+    <ion-icon name="checkmark-circle" color="success" slot="end" *ngIf="SignUpform.controls['name1'].valid"></ion-icon>
+  </ion-item>
+  <ion-item class="ion-margin" lines="inset">
+    <ion-icon  slot="start" color="medium"></ion-icon>
+    <ion-label position="floating">Last Name</ion-label>
+    <ion-input required formControlName="name2" required minlength="3" autocapitalize></ion-input>
+    <ion-icon name="checkmark-circle" color="success" slot="end" *ngIf="SignUpform.controls['name2'].valid"></ion-icon>
+  </ion-item>
+  <ion-item class="ion-margin" lines="inset" >
+    <ion-icon name="lock-closed" slot="start"></ion-icon>
+    <ion-label position="floating">Password</ion-label>
+    <ion-input type="password" clearOnEdit=false id="signpass" formControlName="pass1" required minlength="6"></ion-input>
+    <ion-icon name="checkmark-circle" color="success" slot="end" *ngIf="SignUpform.controls['pass1'].valid"></ion-icon>
+  </ion-item>
+  <ion-item class="ion-margin" lines="inset" >
+    <ion-icon name="lock-closed" slot="start"></ion-icon>
+    <ion-label position="floating">Confirm Password</ion-label>
+    <ion-input type="password" clearOnEdit=false id="signconfirm" formControlName="pass2"  required></ion-input>
+    <ion-icon name="checkmark-circle" color="success" *ngIf="SignUpform.controls['pass1'].value==SignUpform.controls['pass2'].value&&SignUpform.controls['pass2'].valid" slot="end"></ion-icon>
+  </ion-item>
+  <ion-item class="ion-margin" lines="none" >
+    <ion-icon  slot="start" ></ion-icon>
+    <ion-checkbox style="margin-right: 10px;" (ionChange)="signchange($event.detail.checked)"></ion-checkbox>    <ion-label>Show Password</ion-label>
+
+  </ion-item>
+</div>
+<div class="ion-text-center">
+  <ion-button style="--background: #6FCF97;" type="submit"  [disabled]="!SignUpform.valid&&set==true||SignUpform.controls['pass1'].value!=SignUpform.controls['pass2'].value" (click)="change()" expand="block" class="ion-margin" size="large">
+    <!--<ion-icon name="pencil-outline" slot="start" size="large"></ion-icon>-->
+    Sign Up</ion-button>
+</div>
+</form>
+<div class="register" style="display: none;">
+  <hr class="hr-text ion-margin-vertical" data-content="OR">
+  <ion-button color="primary" expand="block" class="ion-margin" size="large" (click)="login()">
+    <!--<ion-icon name="log-in" slot="start" size="large"></ion-icon>-->
+    Login</ion-button>
+</div>
+</idiv>
+</ion-content>

@@ -1,0 +1,95 @@
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/friends"></ion-back-button>
+    </ion-buttons>
+    <ion-item lines="none">
+    <ion-avatar slot="start">
+      <img src="/assets/characters/{{initial|lowercase}}.png">
+    </ion-avatar>
+    <ion-label>{{name}}<br><small style="color:#3880ff;">{{Id}}</small></ion-label>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content #content>
+
+  <ion-fab vertical="bottom" (click)="scrollToBottom()" horizontal="end" slot="fixed">
+    <ion-fab-button size="small" color="light">
+      <ion-icon name="caret-down-outline"></ion-icon>    </ion-fab-button>
+  </ion-fab>
+
+  <div style="width: 100%;height: 100%;padding: 10px;">
+<canvas  #ImageCanvas style="display: none;"></canvas>
+<canvas  #txtCanvas style="display: none;"></canvas>
+<canvas  #txtCanvas2 style="display: none;background-color: white;"></canvas>
+<ion-row style="margin-bottom:10px" *ngFor='let msg of message'>
+  <ion-col class="ion-no-margin ion-no-padding" size="5" *ngIf="myId==msg.from"></ion-col>
+  <ion-col class="ion-no-margin ion-no-padding" size="7">
+
+<!--Sender-->
+    <ion-card class="ion-no-margin ion-no-padding" style="box-shadow: none;border: 2px solid #d3d3d3;border-radius:15px 0 15px 15px"  *ngIf="msg.from==myId" >
+      <img src="{{msg.link}}" style="padding: 5px;border-top-left-radius: 15px;">
+  <div style="padding: 10px;font-size: medium;color: #718096;border-top:1px solid #d3d3d3;background-color: #fdf7f7;" *ngIf="msg.from==myId">
+    <div style="background-color: white;padding: 7px;border:1px solid #d3d3d3">
+{{msg.msg}}
+</div>
+  </div>
+  <div class="ion-text-center" style="color:white;padding: 5px;background-color: #c7bebe;border-top: 1px solid #c0c0c0;">
+    <ion-text style="font-family: 'Times New Roman', Times, serif;font-weight: bold;">{{msg.date}}</ion-text>
+  </div>
+  </ion-card>
+  
+<!--Receiver-->
+  <ion-card class="ion-no-margin ion-no-padding" style="box-shadow: none;border: 2px solid #d3d3d3;border-radius:0 15px 15px 15px"  *ngIf="msg.from!=myId">
+    <img src="{{msg.link}}" style="padding: 5px;border-top-right-radius:15px;" >
+<div style="padding: 10px;border-top: 1px solid #d3d3d3;" >
+  <center>
+  <ion-fab-button color="success" *ngIf="msg.state" (click)="decrypt(msg,msg.dcpr)">
+    <ion-icon name="lock-open"></ion-icon>    </ion-fab-button>
+    <ion-fab-button color="tertiary" *ngIf="!msg.state" (click)="decrypt(msg,msg.dcpr)">
+      <ion-icon name="lock-closed" ></ion-icon>    </ion-fab-button>
+    </center>
+    </div>
+    <div class="ion-text-center" style="color:white;padding: 5px;background-color: #c7bebe;border-top: 1px solid #c0c0c0;">
+      <ion-text style="font-family: 'Times New Roman', Times, serif;font-weight: bold;">{{msg.date}}</ion-text>
+    </div>
+</ion-card>
+</ion-col>
+  <ion-col size="5" *ngIf="myId!=msg.from"></ion-col>
+</ion-row>
+
+</div>
+
+</ion-content>
+<ion-footer>
+ 
+  <div id="encryptimg" style="display: none;">
+  <ion-title class="ion-text-center" style="background: #4299e1;padding: 7px;color:#fff">Select An Image
+  </ion-title>
+  <ion-row style="padding: 7px;overflow-x: scroll;">
+    <ion-col *ngFor="let i of image;let j = index">
+    <ion-thumbnail class="encryptimg border-gray" (click)="select(j)" style="--size:100px ;padding: 4px;" id="{{j}}">
+      <img src="/assets/images/{{i}}.png" id="{{i}}img" style="height: 100%;">
+    </ion-thumbnail>
+    </ion-col>
+            
+  </ion-row>
+</div>
+  <ion-toolbar  style="border-top:1px solid #d3d3d3;">
+    <ion-buttons slot="start">
+      <ion-button (click)="slide()">
+        <ion-icon name="caret-up-outline" id='caret' style="color: #718096;transition:0.5s;" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <div style="padding-top: 5px;margin-top:8px;margin-bottom: 8px;margin-right:5px; background-color: white;border-radius: 5px;">
+    <ion-input  (ionChange)="input($event)" #secrettext  class="ion-no-margin messagebox" placeholder="Enter your secret messaage" ></ion-input>
+    </div>
+      <ion-fab-button size="small" class="send" (click)="send(secrettext.value)" color="success" slot="end" style="box-shadow: none;margin-left: 5px;">
+        <ion-icon name="play" size="small"></ion-icon> 
+        </ion-fab-button>
+    
+  </ion-toolbar>
+</ion-footer>
